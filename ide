@@ -4,7 +4,17 @@ FOLDER=$(basename $PWD)
 EDITOR=${EDITOR:-nvim}
 BUILDER=${BUILDER:-./dev.sh}
 
-tmux new-window -n $FOLDER \; \
+if tmux has-session 2> /dev/null; then
+  CONNECT=""
+  if [ -z "$TMUX" ]; then
+    CONNECT="attach-session;"
+  fi
+else
+  CONNECT="new-session;"
+fi
+
+tmux $CONNECT \
+  new-window -n $FOLDER \; \
   send-keys "$EDITOR" C-m \; \
   split-window -h -c $PWD \; \
   resize-pane -x 40% \; \
