@@ -1,0 +1,16 @@
+#!/usr/sbin/env sh
+
+FOLDER=$(basename $PWD)
+EDITOR=${EDITOR:-nvim}
+BUILDER=${BUILDER:-./dev.sh}
+
+tmux new-window -n $FOLDER \; \
+  send-keys "$EDITOR" C-m \; \
+  split-window -h -c $PWD \; \
+  resize-pane -x 40% \; \
+  send-keys "${BUILDER}" C-m \; \
+  split-window -v -c $PWD \; \
+  resize-pane -y 30% \; \
+  send-keys "git status" C-m \; \
+  select-pane -t 0
+
