@@ -5,12 +5,12 @@ EDITOR=${EDITOR:-nvim}
 BUILDER=${BUILDER:-./dev.sh}
 
 if tmux has-session 2> /dev/null; then
-  CONNECT="new-window -n $FOLDER;"
+  CONNECT="new-window -c $PWD -n $FOLDER;"
   if [ -z "$TMUX" ]; then
-    CONNECT="attach-session; new-window -n $FOLDER;"
+    CONNECT="attach-session; new-window -c $PWD -n $FOLDER;"
   fi
 else
-  CONNECT="new-session -c $FOLDER -n $FOLDER;"
+  CONNECT="new-session -c $PWD -n $FOLDER;"
 fi
 
 tmux $CONNECT \
