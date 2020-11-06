@@ -5,16 +5,15 @@ EDITOR=${EDITOR:-nvim}
 BUILDER=${BUILDER:-./dev.sh}
 
 if tmux has-session 2> /dev/null; then
-  CONNECT=""
+  CONNECT="new-window -n $FOLDER;"
   if [ -z "$TMUX" ]; then
-    CONNECT="attach-session;"
+    CONNECT="attach-session; new-window -n $FOLDER;"
   fi
 else
-  CONNECT="new-session;"
+  CONNECT="new-session -c $FOLDER -n $FOLDER;"
 fi
 
 tmux $CONNECT \
-  new-window -n $FOLDER \; \
   send-keys "$EDITOR" C-m \; \
   split-window -h -c $PWD \; \
   resize-pane -x 40% \; \
